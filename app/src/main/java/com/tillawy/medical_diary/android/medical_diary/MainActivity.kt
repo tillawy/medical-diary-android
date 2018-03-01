@@ -53,10 +53,7 @@ class MainActivity : AppCompatActivity() {
         args2.putString("param1", "2")
         fragmentTwo.setArguments(args2)
 
-        val fragmentThree = BlankFragment()
-        val args3 = Bundle()
-        args3.putString("param1", "3")
-        fragmentThree.setArguments(args3)
+        val fragmentThree = AboutFragment()
 
         val pagerAdapter = PagerAdapter(supportFragmentManager)
         pagerAdapter.addFragment(fragmentOne)
