@@ -2,23 +2,31 @@ package com.tillawy.medical_diary.android.medical_diary
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v4.app.FragmentPagerAdapter
+
+
 
 class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                message.setText(R.string.title_home)
+//                message.setText(R.string.title_home)
+                pager.setCurrentItem(2, true)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                message.setText(R.string.title_dashboard)
+//                message.setText(R.string.title_dashboard)
+                pager.setCurrentItem(1, true)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
-                message.setText(R.string.title_notifications)
+//                message.setText(R.string.title_notifications)
+                pager.setCurrentItem(0, true)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -28,7 +36,50 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        setupPager()
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
+    fun setupPager(){
+
+
+        val fragmentOne = BlankFragment()
+        val args1 = Bundle()
+        args1.putString("param1", "1")
+        fragmentOne.setArguments(args1)
+
+        val fragmentTwo = BlankFragment()
+        val args2 = Bundle()
+        args2.putString("param1", "2")
+        fragmentTwo.setArguments(args2)
+
+        val fragmentThree = BlankFragment()
+        val args3 = Bundle()
+        args3.putString("param1", "3")
+        fragmentThree.setArguments(args3)
+
+        val pagerAdapter = PagerAdapter(supportFragmentManager)
+        pagerAdapter.addFragment(fragmentOne)
+        pagerAdapter.addFragment(fragmentTwo)
+        pagerAdapter.addFragment(fragmentThree)
+        pager.setAdapter(pagerAdapter)
+    }
+}
+
+class PagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
+
+    private val mFragments = ArrayList<Fragment>()
+
+    fun addFragment(fragment: Fragment) {
+        mFragments.add(fragment)
+        notifyDataSetChanged()
+    }
+
+    override fun getCount(): Int {
+        return mFragments.size
+    }
+
+    override fun getItem(position: Int): Fragment {
+        return mFragments[position]
     }
 }
