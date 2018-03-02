@@ -4,13 +4,16 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.tillawy.medical_diary.android.medical_diary.extensions.onChange
 import kotlinx.android.synthetic.main.fragment_form.*
-
+import io.realm.Realm
+import kotlin.properties.Delegates
+import io.realm.kotlin.where
+import com.tillawy.medical_diary.android.medical_diary.models.Patient
+import io.realm.kotlin.createObject
 
 /**
  * A simple [Fragment] subclass.
@@ -20,6 +23,10 @@ import kotlinx.android.synthetic.main.fragment_form.*
  * Use the [FormFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+/*
+https://github.com/realm/realm-java/blob/master/examples/kotlinExample/src/main/kotlin/io/realm/examples/kotlin/KotlinExampleActivity.kt
+ */
 class FormFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
@@ -28,29 +35,51 @@ class FormFragment : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
+    private var realm: Realm by Delegates.notNull()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mParam1 = arguments!!.getString(ARG_PARAM1)
             mParam2 = arguments!!.getString(ARG_PARAM2)
         }
+        realm = Realm.getDefaultInstance()
+
+        if (realm.where<Patient>().count().toInt() == 0){
+            realm.executeTransaction {
+                val patient = realm.createObject<Patient>()
+            }
+        }
+
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        realm = Realm.getDefaultInstance()
+        val patient = realm.where<Patient>().findFirst()!!
 
-        editTextFirstName.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                println(s.toString())
+        editTextFirstName.setText(patient.firstName)
+        editTextFirstName.onChange { it1 : String ->
+            realm.executeTransaction {
+                patient.firstName = it1
             }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
 
+        editTextFatherName.setText(patient.fatherName)
+        editTextFatherName.onChange { it1 : String ->
+            realm.executeTransaction {
+                patient.fatherName = it1
             }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                println(s.toString())
+        }
+
+        editTextLastName.setText(patient.lastName)
+        editTextLastName.onChange { it1 : String ->
+            realm.executeTransaction {
+                patient.lastName = it1
             }
-        })
+        }
+
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
