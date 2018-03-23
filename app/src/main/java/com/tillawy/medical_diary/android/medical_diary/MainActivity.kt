@@ -14,18 +14,15 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
-//                message.setText(R.string.title_home)
+            R.id.navigation_dashboard -> {
                 pager.setCurrentItem(2, true)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
-//                message.setText(R.string.title_dashboard)
+            R.id.navigation_profile -> {
                 pager.setCurrentItem(1, true)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
-//                message.setText(R.string.title_notifications)
+            R.id.navigation_about -> {
                 pager.setCurrentItem(0, true)
                 return@OnNavigationItemSelectedListener true
             }
