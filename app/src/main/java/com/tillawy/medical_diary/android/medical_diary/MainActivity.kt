@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_dashboard -> {
-                pager.setCurrentItem(2, true)
+                pager.setCurrentItem(0, true)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_about -> {
-                pager.setCurrentItem(0, true)
+                pager.setCurrentItem(2, true)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setupPager(){
-
 
         val fragmentOne = BlankFragment()
         val args1 = Bundle()

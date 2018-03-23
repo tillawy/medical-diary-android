@@ -80,6 +80,22 @@ class FormFragment : Fragment() {
             }
         }
 
+        val age = if (patient.age != null) "${patient.age}" else ""
+        editTextAge.setText(age)
+        editTextAge.onChange { it1: String ->
+            realm.executeTransaction {
+                patient.age = it1.toInt()
+            }
+        }
+
+        checkBoxIsOrganDonor.isChecked = patient.isOrganDonor
+        checkBoxIsOrganDonor.setOnCheckedChangeListener {compoundButton, isChecked ->
+            realm.executeTransaction {
+                patient.isOrganDonor = isChecked
+            }
+        }
+
+
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
