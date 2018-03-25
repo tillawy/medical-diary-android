@@ -16,6 +16,11 @@ import kotlin.properties.Delegates
 import io.realm.kotlin.where
 import com.tillawy.medical_diary.android.medical_diary.models.Patient
 import io.realm.kotlin.createObject
+import java.text.SimpleDateFormat
+import java.util.*
+
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -97,18 +102,36 @@ class FormFragment : Fragment() {
             }
         }
 
+        displayBirthDate(patient)
+
+        val cal = Calendar.getInstance()
 
         buttonEditBirthDate.setOnClickListener {
-
+            cal.time = patient.birthDate ?: Date()
             val dateDialogue = DatePickerDialog(activity, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                // Display Selected date in textbox
+                realm.executeTransaction {
+                    val date = GregorianCalendar(year, monthOfYear, dayOfMonth).time
+                    patient.birthDate = date
+                    displayBirthDate(patient)
+                }
 
-            }, 1981, 9, 4)
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
             dateDialogue.show()
 
         }
 
     }
+
+    fun displayBirthDate(patient: Patient){
+
+        val format = SimpleDateFormat("dd/MM/yyy")
+        if (patient.birthDate != null) {
+            buttonEditBirthDate.text = format.format(patient.birthDate)
+        }
+        val cal = Calendar.getInstance()
+        cal.time = patient.birthDate ?: Date()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
