@@ -14,7 +14,7 @@ open class Patient (
         var firstName : String? = null,
         var fatherName : String? = null,
         var lastName : String? = null,
-        var bornAt : Date? = null,
+        var birthDate : Date? = null,
         var age : Int? = null,
         var isOrganDonor : Boolean = false
 ) :
