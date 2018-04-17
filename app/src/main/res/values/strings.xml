@@ -1,4 +1,17 @@
 <resources>
+    <string name="blood_type">Blood Type</string>
+    <string-array name="blood_types">
+        <item>Unknown</item>
+        <item>A+</item>
+        <item>B+</item>
+        <item>AB+</item>
+        <item>O+</item>
+        <item>A-</item>
+        <item>B-</item>
+        <item>AB-</item>
+        <item>O-</item>
+    </string-array>
+
     <string name="app_name">Medical-Diary</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -9,6 +22,9 @@
     <string name="family_name">Family Name</string>
     <string name="age">Age</string>
     <string name="is_organ_donor">Organ Donor</string>
+
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

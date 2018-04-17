@@ -1,14 +1,14 @@
 package com.tillawy.medical_diary.android.medical_diary
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.tillawy.medical_diary.android.medical_diary.extensions.onChange
 import kotlinx.android.synthetic.main.fragment_form.*
 import io.realm.Realm
@@ -18,6 +18,15 @@ import com.tillawy.medical_diary.android.medical_diary.models.Patient
 import io.realm.kotlin.createObject
 import java.text.SimpleDateFormat
 import java.util.*
+import android.view.MenuInflater
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+
+
+
+
+
+
 
 
 
@@ -57,7 +66,6 @@ class FormFragment : Fragment() {
                 val patient = realm.createObject<Patient>()
             }
         }
-
 
     }
 
@@ -120,8 +128,34 @@ class FormFragment : Fragment() {
 
         }
 
+
+        buttonBloodType.setOnClickListener(View.OnClickListener {
+            val alertDialogBuilder = AlertDialog.Builder(context)
+            alertDialogBuilder.setTitle("Welcome")
+            alertDialogBuilder.setItems(R.array.blood_types, DialogInterface.OnClickListener { dialog, whichButton ->
+                realm.executeTransaction {
+                    patient.bloodType = whichButton
+                    displayBloodType(patient)
+                }
+            })
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+        })
+        displayBloodType(patient)
+
     }
 
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        var info = item?.menuInfo as AdapterView.AdapterContextMenuInfo
+        println( "order: ${info.position}" )
+        return super.onContextItemSelected(item)
+    }
+
+    fun displayBloodType(patient: Patient){
+        var blood_types = getResources().getStringArray(R.array.blood_types);
+        buttonBloodType.setText("Blood type: ${blood_types[patient.bloodType]}")
+    }
     fun displayBirthDate(patient: Patient){
 
         val format = SimpleDateFormat("dd/MM/yyy")

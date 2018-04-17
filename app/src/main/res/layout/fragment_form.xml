@@ -102,6 +102,26 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blood_type" />
+
+        <Button
+            android:id="@+id/buttonBloodType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/blood_type" />
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -121,6 +141,8 @@
             android:text="@string/is_organ_donor" />
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>
